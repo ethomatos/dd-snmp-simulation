@@ -1,0 +1,63 @@
+# Basic SNMP configuration
+rocommunity public default
+
+# Trap configuration
+trapsink 172.20.0.20 public
+trap2sink 172.20.0.20 public
+
+# System information
+sysServices 76
+sysLocation "Docker Container Lab"
+sysContact "admin@example.com"
+sysName "router-01"
+sysDescr "Cisco IOS Router Simulator"
+sysObjectID 1.3.6.1.4.1.9.1.1
+
+# Interface information simulation
+interface lo 24 1000000000
+interface eth0 6 1000000000
+
+# Disable AgentX
+master agentx
+
+# Log settings
+logOption n
+
+# Allow all OIDs to be accessed
+view systemview included .1
+view systemview included .1.3.6.1.2.1.1
+view systemview included .1.3.6.1.2.1.2
+view systemview included .1.3.6.1.2.1.3
+view systemview included .1.3.6.1.2.1.4
+view systemview included .1.3.6.1.2.1.5
+view systemview included .1.3.6.1.2.1.6
+view systemview included .1.3.6.1.2.1.7
+view systemview included .1.3.6.1.2.1.8
+view systemview included .1.3.6.1.2.1.9
+view systemview included .1.3.6.1.2.1.10
+view systemview included .1.3.6.1.2.1.11
+
+# Create some fake data for different device types
+# Router-specific OIDs
+override 1.3.6.1.2.1.1.1.0 octet_str "Cisco IOS Router Simulator"
+override 1.3.6.1.2.1.1.2.0 objid 1.3.6.1.4.1.9.1.1
+override 1.3.6.1.2.1.1.3.0 timeticks 12345600
+override 1.3.6.1.2.1.1.4.0 octet_str "Network Administrator"
+override 1.3.6.1.2.1.1.5.0 octet_str "router-01"
+override 1.3.6.1.2.1.1.6.0 octet_str "Docker Container Lab"
+override 1.3.6.1.2.1.1.7.0 integer 76
+
+# Interface counters
+override 1.3.6.1.2.1.2.1.0 integer 2
+override 1.3.6.1.2.1.2.2.1.1.1 integer 1
+override 1.3.6.1.2.1.2.2.1.1.2 integer 2
+override 1.3.6.1.2.1.2.2.1.2.1 octet_str "lo"
+override 1.3.6.1.2.1.2.2.1.2.2 octet_str "eth0"
+override 1.3.6.1.2.1.2.2.1.3.1 integer 24
+override 1.3.6.1.2.1.2.2.1.3.2 integer 6
+override 1.3.6.1.2.1.2.2.1.5.1 gauge 10000000
+override 1.3.6.1.2.1.2.2.1.5.2 gauge 1000000000
+override 1.3.6.1.2.1.2.2.1.10.1 counter 1000000
+override 1.3.6.1.2.1.2.2.1.10.2 counter 50000000
+override 1.3.6.1.2.1.2.2.1.16.1 counter 1000000
+override 1.3.6.1.2.1.2.2.1.16.2 counter 25000000
