@@ -1,0 +1,47 @@
+# Datadog SNMP Configuration for simulated network devices
+
+init_config:
+  loader: core
+
+instances:
+  # Router Device - Cisco Router
+  - ip_address: 172.20.0.10
+    port: 161
+    community_string: public
+    snmp_version: 2
+    timeout: 5
+    retries: 3
+    collect_topology: true
+    tags:
+      - device_type:router
+      - device_name:router-01
+      - environment:simulation
+      - vendor:cisco
+    
+  # Switch Device - Cisco Switch
+  - ip_address: 172.20.0.11
+    port: 161
+    community_string: public
+    snmp_version: 2
+    timeout: 5
+    retries: 3
+    collect_topology: true
+    tags:
+      - device_type:switch
+      - device_name:switch-01
+      - environment:simulation
+      - vendor:cisco
+    
+  # Firewall Device - Palo Alto
+  - ip_address: 172.20.0.12
+    port: 161
+    community_string: public
+    snmp_version: 2
+    timeout: 5
+    retries: 3
+    collect_topology: true
+    tags:
+      - device_type:firewall
+      - device_name:firewall-01
+      - environment:simulation
+      - vendor:paloalto

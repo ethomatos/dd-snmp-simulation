@@ -1,0 +1,42 @@
+## Basic configuration
+api_key: YOUR_DATADOG_API_KEY
+site: datadoghq.com
+hostname: datadog-agent
+
+## Log configuration
+logs_enabled: true
+
+## APM configuration
+apm_config:
+  enabled: true
+
+## Process monitoring
+process_config:
+  enabled: true
+
+## Network Device Monitoring with SNMP Traps
+network_devices:
+  autodiscovery:
+    workers: 100
+    discovery_interval: 3600
+    loader: core
+    use_device_id_as_hostname: true
+    configs:
+      - network_address: 172.20.0.0/16
+        snmp_version: 2
+        port: 161
+        community_string: 'public'
+        tags:
+          - "env:simulation"
+          - "team:network"
+  
+  ## SNMP Traps Configuration
+  snmp_traps:
+    enabled: true
+    port: 162
+    bind_host: 0.0.0.0
+    community_strings:
+      - "public"
+    
+## Logging configuration
+log_level: info

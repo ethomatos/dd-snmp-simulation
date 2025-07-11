@@ -1,0 +1,149 @@
+# Generic host resources profile - common system resource metrics
+metrics:
+  # Host resources - Storage
+  - MIB: HOST-RESOURCES-MIB
+    table:
+      OID: 1.3.6.1.2.1.25.2.3
+      name: hrStorageTable
+    symbols:
+      - OID: 1.3.6.1.2.1.25.2.3.1.4
+        name: hrStorageAllocationUnits
+      - OID: 1.3.6.1.2.1.25.2.3.1.5
+        name: hrStorageSize
+      - OID: 1.3.6.1.2.1.25.2.3.1.6
+        name: hrStorageUsed
+      - OID: 1.3.6.1.2.1.25.2.3.1.7
+        name: hrStorageAllocationFailures
+    metric_tags:
+      - tag: storage_desc
+        symbol:
+          OID: 1.3.6.1.2.1.25.2.3.1.3
+          name: hrStorageDescr
+      - tag: storage_type
+        symbol:
+          OID: 1.3.6.1.2.1.25.2.3.1.2
+          name: hrStorageType
+        mapping:
+          1: other
+          2: ram
+          3: virtualMemory
+          4: fixedDisk
+          5: removableDisk
+          6: floppyDisk
+          7: compactDisk
+          8: ramDisk
+          9: flashMemory
+          10: networkDisk
+
+  # Host resources - Processor
+  - MIB: HOST-RESOURCES-MIB
+    table:
+      OID: 1.3.6.1.2.1.25.3.3
+      name: hrProcessorTable
+    symbols:
+      - OID: 1.3.6.1.2.1.25.3.3.1.2
+        name: hrProcessorLoad
+    metric_tags:
+      - tag: processor_id
+        index: 1
+
+  # Host resources - Device
+  - MIB: HOST-RESOURCES-MIB
+    table:
+      OID: 1.3.6.1.2.1.25.3.2
+      name: hrDeviceTable
+    symbols:
+      - OID: 1.3.6.1.2.1.25.3.2.1.5
+        name: hrDeviceStatus
+      - OID: 1.3.6.1.2.1.25.3.2.1.6
+        name: hrDeviceErrors
+    metric_tags:
+      - tag: device_descr
+        symbol:
+          OID: 1.3.6.1.2.1.25.3.2.1.3
+          name: hrDeviceDescr
+      - tag: device_type
+        symbol:
+          OID: 1.3.6.1.2.1.25.3.2.1.2
+          name: hrDeviceType
+        mapping:
+          1: other
+          2: unknown
+          3: processor
+          4: network
+          5: printer
+          6: diskStorage
+          7: video
+          8: audio
+          9: coprocessor
+          10: keyboard
+          11: modem
+          12: parallelPort
+          13: pointing
+          14: serialPort
+          15: tape
+          16: clock
+          17: volatileMemory
+          18: nonVolatileMemory
+
+  # Host resources - Running software
+  - MIB: HOST-RESOURCES-MIB
+    table:
+      OID: 1.3.6.1.2.1.25.4.2
+      name: hrSWRunTable
+    symbols:
+      - OID: 1.3.6.1.2.1.25.4.2.1.4
+        name: hrSWRunStatus
+      - OID: 1.3.6.1.2.1.25.4.2.1.5
+        name: hrSWRunType
+      - OID: 1.3.6.1.2.1.25.4.2.1.6
+        name: hrSWRunPerfCPU
+      - OID: 1.3.6.1.2.1.25.4.2.1.7
+        name: hrSWRunPerfMem
+    metric_tags:
+      - tag: sw_run_name
+        symbol:
+          OID: 1.3.6.1.2.1.25.4.2.1.2
+          name: hrSWRunName
+      - tag: sw_run_path
+        symbol:
+          OID: 1.3.6.1.2.1.25.4.2.1.4
+          name: hrSWRunPath
+      - tag: sw_run_parameters
+        symbol:
+          OID: 1.3.6.1.2.1.25.4.2.1.5
+          name: hrSWRunParameters
+
+  # Host resources - System
+  - MIB: HOST-RESOURCES-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.25.1.1.0
+      name: hrSystemUptime
+  - MIB: HOST-RESOURCES-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.25.1.2.0
+      name: hrSystemDate
+  - MIB: HOST-RESOURCES-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.25.1.3.0
+      name: hrSystemInitialLoadDevice
+  - MIB: HOST-RESOURCES-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.25.1.4.0
+      name: hrSystemInitialLoadParameters
+  - MIB: HOST-RESOURCES-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.25.1.5.0
+      name: hrSystemNumUsers
+  - MIB: HOST-RESOURCES-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.25.1.6.0
+      name: hrSystemProcesses
+  - MIB: HOST-RESOURCES-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.25.1.7.0
+      name: hrSystemMaxProcesses
+
+metric_tags:
+  - tag: host_resources
+    value: "enabled"

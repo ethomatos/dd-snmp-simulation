@@ -1,0 +1,101 @@
+
+services:
+  # SNMP Device Simulator 1 - Router
+  snmp-router:
+    build: ./snmp-devices
+    container_name: snmp-router-sim
+    hostname: router-01
+    ports:
+      - "161:161/udp"
+    environment:
+      - DEVICE_TYPE=router
+      - DEVICE_NAME=router-01
+      - SYS_DESCR=Cisco IOS Router Simulator
+      - SYS_OBJECT_ID=1.3.6.1.4.1.9.1.1
+      - TRAP_DESTINATION=172.20.0.20
+      - TRAP_COMMUNITY=public
+    depends_on:
+      - datadog-agent
+    volumes:
+      - ./snmp-devices/router-config:/etc/snmp/
+    networks:
+      snmp-network:
+        ipv4_address: 172.20.0.10
+
+  # SNMP Device Simulator 2 - Switch  
+  snmp-switch:
+    build: ./snmp-devices
+    container_name: snmp-switch-sim
+    hostname: switch-01
+    ports:
+      - "1162:161/udp"
+    environment:
+      - DEVICE_TYPE=switch
+      - DEVICE_NAME=switch-01
+      - SYS_DESCR=Cisco Catalyst Switch Simulator
+      - SYS_OBJECT_ID=1.3.6.1.4.1.9.1.208
+      - TRAP_DESTINATION=172.20.0.20
+      - TRAP_COMMUNITY=public
+    depends_on:
+      - datadog-agent
+    volumes:
+      - ./snmp-devices/switch-config:/etc/snmp/
+    networks:
+      snmp-network:
+        ipv4_address: 172.20.0.11
+
+  # SNMP Device Simulator 3 - Firewall
+  snmp-firewall:
+    build: ./snmp-devices
+    container_name: snmp-firewall-sim
+    hostname: firewall-01
+    ports:
+      - "163:161/udp"
+    environment:
+      - DEVICE_TYPE=firewall
+      - DEVICE_NAME=firewall-01
+      - SYS_DESCR=Palo Alto Firewall Simulator
+      - SYS_OBJECT_ID=1.3.6.1.4.1.25461.2.3.1
+      - TRAP_DESTINATION=172.20.0.20
+      - TRAP_COMMUNITY=public
+    depends_on:
+      - datadog-agent
+    volumes:
+      - ./snmp-devices/firewall-config:/etc/snmp/
+    networks:
+      snmp-network:
+        ipv4_address: 172.20.0.12
+
+  # Datadog Agent
+  datadog-agent:
+    image: gcr.io/datadoghq/agent:latest
+    container_name: datadog-agent
+    ports:
+      - "162:162/udp"  # SNMP trap port
+    environment:
+      - DD_API_KEY=${DD_API_KEY}
+      - DD_SITE=${DD_SITE:-datadoghq.com}
+      - DD_LOG_LEVEL=INFO
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_NETWORK_DEVICES_ENABLED=true
+      - DD_SNMP_LISTENER_ENABLED=true
+      - DD_SNMP_TRAPS_ENABLED=true
+      - DD_SNMP_TRAPS_CONFIG_COMMUNITY_STRINGS=["public"]
+      - DD_SNMP_TRAPS_CONFIG_BIND_HOST=0.0.0.0
+      - DD_SNMP_TRAPS_CONFIG_PORT=162
+    volumes:
+      - ./datadog-config:/etc/datadog-agent/conf.d/
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    networks:
+      snmp-network:
+        ipv4_address: 172.20.0.20
+
+networks:
+  snmp-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

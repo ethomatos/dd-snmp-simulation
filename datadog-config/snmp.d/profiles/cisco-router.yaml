@@ -1,0 +1,111 @@
+sysobjectid: 1.3.6.1.4.1.9.1.1
+
+extends:
+  - _base.yaml
+  - _generic-if.yaml
+  - _generic-host-resources.yaml
+
+device:
+  vendor: "cisco"
+
+metadata:
+  device:
+    fields:
+      vendor:
+        value: "cisco"
+      model:
+        symbol:
+          OID: 1.3.6.1.2.1.1.1.0
+          name: sysDescr
+          match_pattern: 'Cisco ([^,]+)'
+          match_value: '$1'
+      serial_number:
+        symbol:
+          OID: 1.3.6.1.4.1.9.3.6.3.0
+          name: chassisId
+      os_version:
+        symbol:
+          OID: 1.3.6.1.2.1.1.1.0
+          name: sysDescr
+          match_pattern: 'Version ([^,]+)'
+          match_value: '$1'
+
+metrics:
+  # System metrics
+  - MIB: CISCO-MEMORY-POOL-MIB
+    symbol:
+      OID: 1.3.6.1.4.1.9.9.48.1.1.1.5.1
+      name: ciscoMemoryPoolUsed
+  - MIB: CISCO-MEMORY-POOL-MIB
+    symbol:
+      OID: 1.3.6.1.4.1.9.9.48.1.1.1.6.1
+      name: ciscoMemoryPoolFree
+
+  # CPU metrics
+  - MIB: CISCO-PROCESS-MIB
+    symbol:
+      OID: 1.3.6.1.4.1.9.9.109.1.1.1.1.7.1
+      name: cpmCPUTotal5sec
+  - MIB: CISCO-PROCESS-MIB
+    symbol:
+      OID: 1.3.6.1.4.1.9.9.109.1.1.1.1.8.1
+      name: cpmCPUTotal1min
+  - MIB: CISCO-PROCESS-MIB
+    symbol:
+      OID: 1.3.6.1.4.1.9.9.109.1.1.1.1.9.1
+      name: cpmCPUTotal5min
+
+  # Environmental metrics
+  - MIB: CISCO-ENVMON-MIB
+    symbol:
+      OID: 1.3.6.1.4.1.9.9.13.1.3.1.3.1
+      name: ciscoEnvMonTemperatureStatusValue
+  - MIB: CISCO-ENVMON-MIB
+    symbol:
+      OID: 1.3.6.1.4.1.9.9.13.1.5.1.3.1
+      name: ciscoEnvMonSupplyStatusDescr
+
+  # Interface metrics (from generic-if.yaml)
+  - MIB: IF-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.2.2.1.10
+      name: ifInOctets
+  - MIB: IF-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.2.2.1.16
+      name: ifOutOctets
+  - MIB: IF-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.2.2.1.8
+      name: ifOperStatus
+
+  # BGP metrics
+  - MIB: BGP4-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.15.3.0
+      name: bgpVersion
+  - MIB: BGP4-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.15.4.0
+      name: bgpLocalAs
+
+  # OSPF metrics
+  - MIB: OSPF-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.14.1.1.0
+      name: ospfRouterId
+  - MIB: OSPF-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.14.1.2.0
+      name: ospfAdminStat
+
+metric_tags:
+  - OID: 1.3.6.1.2.1.1.5.0
+    symbol: sysName
+    tag: snmp_host
+  - OID: 1.3.6.1.4.1.9.3.6.3.0
+    symbol: chassisId
+    tag: chassis_id
+  - OID: 1.3.6.1.2.1.1.1.0
+    symbol: sysDescr
+    tag: device_description

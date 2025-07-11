@@ -1,0 +1,68 @@
+# Base profile - common metrics for all devices
+metrics:
+  # System information
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.1.1.0
+      name: sysDescr
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.1.2.0
+      name: sysObjectID
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.1.3.0
+      name: sysUpTime
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.1.4.0
+      name: sysContact
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.1.5.0
+      name: sysName
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.1.6.0
+      name: sysLocation
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.1.7.0
+      name: sysServices
+
+  # SNMP statistics
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.11.1.0
+      name: snmpInPkts
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.11.2.0
+      name: snmpOutPkts
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.11.3.0
+      name: snmpInBadVersions
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.11.4.0
+      name: snmpInBadCommunityNames
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.11.5.0
+      name: snmpInBadCommunityUses
+  - MIB: SNMPv2-MIB
+    symbol:
+      OID: 1.3.6.1.2.1.11.6.0
+      name: snmpInASNParseErrs
+
+metric_tags:
+  - OID: 1.3.6.1.2.1.1.5.0
+    symbol: sysName
+    tag: snmp_host
+  - OID: 1.3.6.1.2.1.1.6.0
+    symbol: sysLocation
+    tag: snmp_location
+  - OID: 1.3.6.1.2.1.1.4.0
+    symbol: sysContact
+    tag: snmp_contact
